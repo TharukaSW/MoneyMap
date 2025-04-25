@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
+    <color name="purple_200">#E6F1FF</color>
+    <color name="purple_500">#E6F1FF</color>
+    <color name="purple_700">#E6F1FF</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green_500">#4CAF50</color>
-    <color name="red_500">#FFEB3B</color>
+    <color name="red_500">#F44336</color>
     <color name="orange_500">#FF9800</color>
-    <color name="yellow_500">#FFEB3B</color>
+    <color name="yellow_500">#00C853</color>
 
     <!-- Chart Colors -->
     <color name="chart_color_1">#FF6200EE</color>
@@ -26,6 +26,9 @@
     <color name="onBackground">#000000</color>
     <color name="onSurface">#000000</color>
 
+    <!-- Income and Expenses Colors -->
+    <color name="red">#F44336</color>
+    <color name="green">#4CAF50</color>
 
     <color name="primary">#E6F1FF</color>
     <color name="secondary">#136FE6</color>
@@ -40,5 +43,5 @@
     <color name="category_transport">#4CAF50</color>
     <color name="category_shopping">#FF9800</color>
     <color name="category_salary">#00C853</color>
-    <color name="category_other">#9C27B0</color>
+    <color name="category_other">#E6F1FF</color>
 </resources>

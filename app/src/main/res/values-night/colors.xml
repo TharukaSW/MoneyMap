@@ -10,6 +10,7 @@
     <color name="green_500">#FF4CAF50</color>
     <color name="red_500">#FFF44336</color>
     <color name="orange_500">#FFFF9800</color>
+    <color name="primary">#FF000000</color>
 
     <!-- Chart Colors -->
     <color name="chart_color_1">#FF6200EE</color>

@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/dashboard"
+        android:icon="@drawable/ic_dashboard"
         android:title="Dashboard" />
 
     <item
         android:id="@+id/navigation_transactions"
-        android:icon="@drawable/transaction"
+        android:icon="@drawable/ic_transactions"
         android:title="Transactions" />
 
     <item
@@ -17,6 +17,6 @@
 
     <item
         android:id="@+id/navigation_settings"
-        android:icon="@drawable/settings"
+        android:icon="@drawable/ic_settings"
         android:title="Settings" />
 </menu> 

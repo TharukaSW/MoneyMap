@@ -1,6 +1,8 @@
 package com.example.imilipocket.ui.settings
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +15,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.imilipocket.R
 import com.example.imilipocket.databinding.FragmentSettingsBinding
 import com.example.imilipocket.data.PreferenceManager
+import com.example.imilipocket.util.PdfGenerator
 
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
     private lateinit var preferenceManager: PreferenceManager
     private lateinit var viewModel: SettingsViewModel
+    private lateinit var pdfGenerator: PdfGenerator
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,8 +31,8 @@ class SettingsFragment : Fragment() {
     ): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         preferenceManager = PreferenceManager(requireContext())
-        viewModel = ViewModelProvider(this, SettingsViewModelFactory(preferenceManager))
-            .get(SettingsViewModel::class.java)
+        viewModel = ViewModelProvider(this, SettingsViewModel.Factory)[SettingsViewModel::class.java]
+        pdfGenerator = PdfGenerator(requireContext())
         return binding.root
     }
 
@@ -45,33 +49,28 @@ class SettingsFragment : Fragment() {
     private fun setupUI() {
         // Setup currency spinner
         val currencies = listOf(
-            getString(R.string.currency_usd),
-            getString(R.string.currency_eur),
-            getString(R.string.currency_gbp),
-            getString(R.string.currency_jpy),
-            getString(R.string.currency_inr),
-            getString(R.string.currency_aud),
-            getString(R.string.currency_cad),
-            getString(R.string.currency_lkr),
-            getString(R.string.currency_cny),
-            getString(R.string.currency_sgd),
-            getString(R.string.currency_myr),
-            getString(R.string.currency_thb),
-            getString(R.string.currency_idr),
-            getString(R.string.currency_php),
-            getString(R.string.currency_vnd),
-            getString(R.string.currency_krw),
-            getString(R.string.currency_aed),
-            getString(R.string.currency_sar),
-            getString(R.string.currency_qar)
+            "USD - US Dollar",
+            "EUR - Euro",
+            "GBP - British Pound",
+            "JPY - Japanese Yen",
+            "INR - Indian Rupee",
+            "AUD - Australian Dollar",
+            "CAD - Canadian Dollar",
+            "LKR - Sri Lankan Rupee",
+            "CNY - Chinese Yuan",
+            "SGD - Singapore Dollar",
+            "MYR - Malaysian Ringgit",
+            "THB - Thai Baht",
+            "IDR - Indonesian Rupiah",
+            "PHP - Philippine Peso",
+            "VND - Vietnamese Dong",
+            "KRW - South Korean Won",
+            "AED - UAE Dirham",
+            "SAR - Saudi Riyal",
+            "QAR - Qatari Riyal"
         )
-        
-        val adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_dropdown_item_1line,
-            currencies
-        )
-        
+
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, currencies)
         binding.spinnerCurrency.apply {
             setAdapter(adapter)
             threshold = 1
@@ -108,6 +107,47 @@ class SettingsFragment : Fragment() {
                 }
                 AppCompatDelegate.setDefaultNightMode(mode)
             }
+
+            btnGeneratePdf.setOnClickListener {
+                generateMonthlyReport()
+            }
+        }
+    }
+
+    private fun generateMonthlyReport() {
+        try {
+            val transactions = viewModel.getMonthlyTransactions()
+            if (transactions.isEmpty()) {
+                Toast.makeText(requireContext(), "No transactions found for this month", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            val pdfFile = pdfGenerator.generateMonthlyReport(transactions)
+            
+            // Show success dialog with options
+            AlertDialog.Builder(requireContext())
+                .setTitle("PDF Generated")
+                .setMessage("Monthly report has been saved to Downloads folder. What would you like to do?")
+                .setPositiveButton("Open") { _, _ ->
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        setDataAndType(Uri.fromFile(pdfFile), "application/pdf")
+                        flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    }
+                    startActivity(intent)
+                }
+                .setNeutralButton("Share") { _, _ ->
+                    val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                        type = "application/pdf"
+                        putExtra(Intent.EXTRA_STREAM, Uri.fromFile(pdfFile))
+                    }
+                    startActivity(Intent.createChooser(shareIntent, "Share PDF"))
+                }
+                .setNegativeButton("Close", null)
+                .show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(), "Error generating PDF: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 

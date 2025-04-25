@@ -25,9 +25,13 @@ class NotificationHelper(private val context: Context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val name = "Budget Alerts"
                 val descriptionText = "Notifications for budget alerts"
-                val importance = NotificationManager.IMPORTANCE_DEFAULT
+                // Change importance to IMPORTANCE_HIGH for heads-up notifications
+                val importance = NotificationManager.IMPORTANCE_HIGH
                 val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                     description = descriptionText
+                    enableVibration(true) // Enable vibration for better visibility
+                    // Optionally, set a vibration pattern
+                    vibrationPattern = longArrayOf(0, 500, 200, 500)
                 }
                 val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 notificationManager.createNotificationChannel(channel)
@@ -56,9 +60,11 @@ class NotificationHelper(private val context: Context) {
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_HIGH) // Already set correctly
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
+                // Optional: Add sound for better heads-up effect
+                .setDefaults(NotificationCompat.DEFAULT_SOUND)
                 .build()
 
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -79,8 +85,7 @@ class NotificationHelper(private val context: Context) {
             val title = when {
                 progress >= 100 -> "Budget Exceeded!"
                 progress >= 90 -> "Budget Warning!"
-                progress >= 70 -> "Budget Alert!"
-                else -> return // Don't show notification if below 70%
+                else -> return // Don't show notification if below 90%
             }
 
             val remaining = monthlyBudget - monthlyExpenses
@@ -103,9 +108,10 @@ class NotificationHelper(private val context: Context) {
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
+                .setDefaults(NotificationCompat.DEFAULT_SOUND)
                 .build()
 
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -114,4 +120,4 @@ class NotificationHelper(private val context: Context) {
             e.printStackTrace()
         }
     }
-} 
+}

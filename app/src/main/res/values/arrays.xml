@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="currencies">
+        <item>@string/currency_usd</item>
+        <item>@string/currency_eur</item>
+        <item>@string/currency_gbp</item>
+        <item>@string/currency_jpy</item>
+        <item>@string/currency_inr</item>
+        <item>@string/currency_aud</item>
+        <item>@string/currency_cad</item>
+        <item>@string/currency_lkr</item>
+        <item>@string/currency_cny</item>
+        <item>@string/currency_sgd</item>
+        <item>@string/currency_myr</item>
+        <item>@string/currency_thb</item>
+        <item>@string/currency_idr</item>
+        <item>@string/currency_php</item>
+        <item>@string/currency_vnd</item>
+        <item>@string/currency_krw</item>
+        <item>@string/currency_aed</item>
+        <item>@string/currency_sar</item>
+        <item>@string/currency_qar</item>
+        <item>@string/currency_brl</item>
+        <item>@string/currency_mxn</item>
+        <item>@string/currency_zar</item>
+        <item>@string/currency_nzd</item>
+        <item>@string/currency_chf</item>
+    </string-array>
+</resources> 

@@ -1,4 +1,4 @@
-package com.example.sachithra
+package com.example.tharuka
 
 import org.junit.Test
 
